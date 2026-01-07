@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="calendar/calendar.vcxproj" Id="593ecd3c-5785-4ab0-93e7-f7fff04b64ba" />
-</Solution>
