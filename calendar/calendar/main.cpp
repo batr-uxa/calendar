@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <limits>
 #include <Windows.h>
 #include "logic.h"
 
@@ -68,21 +69,43 @@ int main() {
         }
         case 5: {
             ListAllTasks(tasks);
+            if (tasks.empty()) break;
             size_t id;
-            std::cout << "Enter ID to change: "; std::cin >> id;
+            std::cout << "Enter ID to change: "; 
+            if (!(std::cin >> id)) {
+                std::cin.clear();
+                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+                std::cout << "Invalid ID. Please enter a number.\n";
+                break;
+            }
+            std::string new_date;
             if (id < tasks.size()) {
-                std::cout << "New date (YYYY-MM-DD): "; std::cin >> tasks[id].date;
+                std::cout << "New date (YYYY-MM-DD): "; std::cin >> new_date;
                 std::cin.ignore();
+                if (!IsValidDate(new_date)) {
+                    std::cout << "Error: Invalid date format.\n";
+                    break;
+                }
+                tasks[id].date = new_date;
                 std::cout << "New description: "; std::getline(std::cin, tasks[id].description);
                 std::sort(tasks.begin(), tasks.end());
-                SaveTasksToFile(tasks, main_file);
+            }
+            else {
+                std::cout << "Error: Invalid ID";
             }
             break;
         }
         case 6: {
             ListAllTasks(tasks);
+            if (tasks.empty()) break;
             size_t id;
-            std::cout << "Enter ID to delete: "; std::cin >> id;
+            std::cout << "Enter ID to delete: "; 
+            if (!(std::cin >> id)) {
+                std::cin.clear();
+                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+                std::cout << "Invalid ID. Please enter a number.\n";
+                break;
+            }
             if (id < tasks.size()) {
                 tasks.erase(tasks.begin() + id);
                 SaveTasksToFile(tasks, main_file);
